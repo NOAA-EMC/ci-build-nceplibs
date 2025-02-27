@@ -57,7 +57,7 @@ runs:
   steps:
 
     - name: "Build 'jasper'"
-      uses: NOAA-EMC/ci-build-cmake-code@develop
+      uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
       if: ${{ inputs.jasper-version }}
       with:
         package-name: jasper
@@ -69,7 +69,7 @@ runs:
         key-suffix: ${{ inputs.key-suffix }}
 
     - name: "Build 'bacio'"
-      uses: NOAA-EMC/ci-build-cmake-code@develop
+      uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
       if: ${{ inputs.bacio-version }}
       with:
         package-name: NCEPLIBS-bacio
@@ -81,7 +81,7 @@ runs:
         key-suffix: ${{ inputs.key-suffix }}
 
     - name: "Build 'bufr'"
-      uses: NOAA-EMC/ci-build-cmake-code@develop
+      uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
       if: ${{ inputs.bufr-version }}
       with:
         package-name: NCEPLIBS-bufr
@@ -93,19 +93,19 @@ runs:
         key-suffix: ${{ inputs.key-suffix }}
 
     - name: "Build 'w3emc'"
-      uses: NOAA-EMC/ci-build-cmake-code@develop
+      uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
       if: ${{ inputs.w3emc-version }}
       with:
         package-name: NCEPLIBS-w3emc
         package-org: NOAA-EMC
-        cmake-args: ${{ inputs.w3emc-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs/NCEPLIBS-bufr;${{ github.workspace }}/nceplibs/NCEPLIBS-bacio"
+        cmake-args: ${{ inputs.w3emc-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs"
         git-ref: ${{ inputs.w3emc-version }}
         repo-cache: ${{ inputs.repo-cache && inputs.w3emc-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: -bacio-${{ inputs.bacio-version }}-${{ inputs.bacio-cmake-args }}${{ inputs.key-suffix }}
 
     - name: "Build 'sp'"
-      uses: NOAA-EMC/ci-build-cmake-code@develop
+      uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
       if: ${{ inputs.sp-version }}
       with:
         package-name: NCEPLIBS-sp
@@ -117,48 +117,48 @@ runs:
         key-suffix: ${{ inputs.key-suffix }}
 
     - name: "Build 'ip'"
-      uses: NOAA-EMC/ci-build-cmake-code@develop
+      uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
       if: ${{ inputs.ip-version }}
       with:
         package-name: NCEPLIBS-ip
         package-org: NOAA-EMC
-        cmake-args: ${{ inputs.ip-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs/NCEPLIBS-sp"
+        cmake-args: ${{ inputs.ip-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs"
         git-ref: ${{ inputs.ip-version }}
         repo-cache: ${{ inputs.repo-cache && inputs.ip-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: ${{ inputs.key-suffix }}
 
     - name: "Build 'g2c'"
-      uses: NOAA-EMC/ci-build-cmake-code@develop
+      uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
       if: ${{ inputs.g2c-version }}
       with:
         package-name: NCEPLIBS-g2c
         package-org: NOAA-EMC
-        cmake-args: ${{ inputs.g2c-cmake-args }} -DCMAKE_PREFIX_PATH"=${{ github.workspace }}/nceplibs/jasper"
+        cmake-args: ${{ inputs.g2c-cmake-args }} -DCMAKE_PREFIX_PATH"=${{ github.workspace }}/nceplibs"
         git-ref: ${{ inputs.g2c-version }}
         repo-cache: ${{ inputs.repo-cache && inputs.g2c-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: -jasper-${{ inputs.jasper-version }}-${{ inputs.jasper-cmake-args }}${{ inputs.key-suffix }}
 
     - name: "Build 'g2'"
-      uses: NOAA-EMC/ci-build-cmake-code@develop
+      uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
       if: ${{ inputs.g2-version }}
       with:
         package-name: NCEPLIBS-g2
         package-org: NOAA-EMC
-        cmake-args: ${{ inputs.g2-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs/NCEPLIBS-bacio;${{ github.workspace }}/nceplibs/NCEPLIBS-w3emc;${{ github.workspace }}/nceplibs/jasper"
+        cmake-args: ${{ inputs.g2-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs"
         git-ref: ${{ inputs.g2-version }}
         repo-cache: ${{ inputs.repo-cache && inputs.g2-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: -bacio-${{ inputs.bacio-version }}-${{ inputs.bacio-cmake-args }}-w3emc-${{ inputs.w3emc-version }}-${{ inputs.w3emc-cmake-args }}-jasper-${{ inputs.jasper-version }}-${{ inputs.jasper-cmake-args }}${{ inputs.key-suffix }}
 
     - name: "Build 'nemsio'"
-      uses: NOAA-EMC/ci-build-cmake-code@develop
+      uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
       if: ${{ inputs.nemsio-version }}
       with:
         package-name: NCEPLIBS-nemsio
         package-org: NOAA-EMC
-        cmake-args: ${{ inputs.nemsio-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs/NCEPLIBS-bufr;${{ github.workspace }}/nceplibs/NCEPLIBS-bacio;${{ github.workspace }}/nceplibs/NCEPLIBS-w3emc"
+        cmake-args: ${{ inputs.nemsio-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs"
         git-ref: ${{ inputs.nemsio-version }}
         repo-cache: ${{ inputs.repo-cache && inputs.nemsio-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
