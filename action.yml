@@ -78,7 +78,7 @@ runs:
 
     - name: "Build 'bacio'"
       uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
-      if: ${{ inputs.bacio-version }} && ${{ steps.deps-cache.outputs.cache-hit != 'true' }}
+      if: ${{ inputs.bacio-version && steps.deps-cache.outputs.cache-hit != 'true' }}
       with:
         package-name: NCEPLIBS-bacio
         package-org: NOAA-EMC
@@ -90,7 +90,7 @@ runs:
 
     - name: "Build 'bufr'"
       uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
-      if: ${{ inputs.bufr-version }} && ${{ steps.deps-cache.outputs.cache-hit != 'true' }}
+      if: ${{ inputs.bufr-version && steps.deps-cache.outputs.cache-hit != 'true' }}
       with:
         package-name: NCEPLIBS-bufr
         package-org: NOAA-EMC
@@ -102,7 +102,7 @@ runs:
 
     - name: "Build 'w3emc'"
       uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
-      if: ${{ inputs.w3emc-version }} && ${{ steps.deps-cache.outputs.cache-hit != 'true' }}
+      if: ${{ inputs.w3emc-version && steps.deps-cache.outputs.cache-hit != 'true' }}
       with:
         package-name: NCEPLIBS-w3emc
         package-org: NOAA-EMC
@@ -114,7 +114,7 @@ runs:
 
     - name: "Build 'sp'"
       uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
-      if: ${{ inputs.sp-version }} && ${{ steps.deps-cache.outputs.cache-hit != 'true' }}
+      if: ${{ inputs.sp-version && steps.deps-cache.outputs.cache-hit != 'true' }}
       with:
         package-name: NCEPLIBS-sp
         package-org: NOAA-EMC
@@ -126,7 +126,7 @@ runs:
 
     - name: "Build 'ip'"
       uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
-      if: ${{ inputs.ip-version }} && ${{ steps.deps-cache.outputs.cache-hit != 'true' }}
+      if: ${{ inputs.ip-version && steps.deps-cache.outputs.cache-hit != 'true' }}
       with:
         package-name: NCEPLIBS-ip
         package-org: NOAA-EMC
@@ -138,7 +138,7 @@ runs:
 
     - name: "Build 'g2c'"
       uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
-      if: ${{ inputs.g2c-version }} && ${{ steps.deps-cache.outputs.cache-hit != 'true' }}
+      if: ${{ inputs.g2c-version && steps.deps-cache.outputs.cache-hit != 'true' }}
       with:
         package-name: NCEPLIBS-g2c
         package-org: NOAA-EMC
@@ -150,7 +150,7 @@ runs:
 
     - name: "Build 'g2'"
       uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
-      if: ${{ inputs.g2-version }} && ${{ steps.deps-cache.outputs.cache-hit != 'true' }}
+      if: ${{ inputs.g2-version && steps.deps-cache.outputs.cache-hit != 'true' }}
       with:
         package-name: NCEPLIBS-g2
         package-org: NOAA-EMC
@@ -162,7 +162,7 @@ runs:
 
     - name: "Build 'nemsio'"
       uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
-      if: ${{ inputs.nemsio-version }} && ${{ steps.deps-cache.outputs.cache-hit != 'true' }}
+      if: ${{ inputs.nemsio-version && steps.deps-cache.outputs.cache-hit != 'true' }}
       with:
         package-name: NCEPLIBS-nemsio
         package-org: NOAA-EMC
