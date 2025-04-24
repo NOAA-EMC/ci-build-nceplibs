@@ -64,7 +64,7 @@ runs:
         package-org: jasper-software
         cmake-args: ${{ inputs.jasper-cmake-args }}
         git-ref: ${{ inputs.jasper-version }}
-        repo-cache: ${{ inputs.repo-cache && inputs.jasper-version != 'develop' }}
+        repo-cache: false # ${{ inputs.repo-cache && inputs.jasper-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: ${{ inputs.key-suffix }}
 
@@ -76,7 +76,7 @@ runs:
         package-org: NOAA-EMC
         cmake-args: ${{ inputs.bacio-cmake-args }}
         git-ref: ${{ inputs.bacio-version }}
-        repo-cache: ${{ inputs.repo-cache && inputs.bacio-version != 'develop' }}
+        repo-cache: false # ${{ inputs.repo-cache && inputs.bacio-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: ${{ inputs.key-suffix }}
 
@@ -88,7 +88,7 @@ runs:
         package-org: NOAA-EMC
         cmake-args: ${{ inputs.bufr-cmake-args }} -DTEST_FILE_DIR=/dev/null
         git-ref: ${{ inputs.bufr-version }}
-        repo-cache: ${{ inputs.repo-cache && inputs.bufr-version != 'develop' }}
+        repo-cache: false # ${{ inputs.repo-cache && inputs.bufr-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: ${{ inputs.key-suffix }}
 
@@ -100,7 +100,7 @@ runs:
         package-org: NOAA-EMC
         cmake-args: ${{ inputs.w3emc-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs"
         git-ref: ${{ inputs.w3emc-version }}
-        repo-cache: ${{ inputs.repo-cache && inputs.w3emc-version != 'develop' }}
+        repo-cache: false # ${{ inputs.repo-cache && inputs.w3emc-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: -bacio-${{ inputs.bacio-version }}-${{ inputs.bacio-cmake-args }}${{ inputs.key-suffix }}
 
@@ -112,7 +112,7 @@ runs:
         package-org: NOAA-EMC
         cmake-args: ${{ inputs.sp-cmake-args }}
         git-ref: ${{ inputs.sp-version }}
-        repo-cache: ${{ inputs.repo-cache && inputs.sp-version != 'develop' }}
+        repo-cache: false # ${{ inputs.repo-cache && inputs.sp-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: ${{ inputs.key-suffix }}
 
@@ -124,7 +124,7 @@ runs:
         package-org: NOAA-EMC
         cmake-args: ${{ inputs.ip-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs"
         git-ref: ${{ inputs.ip-version }}
-        repo-cache: ${{ inputs.repo-cache && inputs.ip-version != 'develop' }}
+        repo-cache: false # ${{ inputs.repo-cache && inputs.ip-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: ${{ inputs.key-suffix }}
 
@@ -136,7 +136,7 @@ runs:
         package-org: NOAA-EMC
         cmake-args: ${{ inputs.g2c-cmake-args }} -DCMAKE_PREFIX_PATH"=${{ github.workspace }}/nceplibs"
         git-ref: ${{ inputs.g2c-version }}
-        repo-cache: ${{ inputs.repo-cache && inputs.g2c-version != 'develop' }}
+        repo-cache: false # ${{ inputs.repo-cache && inputs.g2c-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: -jasper-${{ inputs.jasper-version }}-${{ inputs.jasper-cmake-args }}${{ inputs.key-suffix }}
 
@@ -148,7 +148,7 @@ runs:
         package-org: NOAA-EMC
         cmake-args: ${{ inputs.g2-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs"
         git-ref: ${{ inputs.g2-version }}
-        repo-cache: ${{ inputs.repo-cache && inputs.g2-version != 'develop' }}
+        repo-cache: false # ${{ inputs.repo-cache && inputs.g2-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: -bacio-${{ inputs.bacio-version }}-${{ inputs.bacio-cmake-args }}-w3emc-${{ inputs.w3emc-version }}-${{ inputs.w3emc-cmake-args }}-jasper-${{ inputs.jasper-version }}-${{ inputs.jasper-cmake-args }}${{ inputs.key-suffix }}
 
@@ -160,6 +160,13 @@ runs:
         package-org: NOAA-EMC
         cmake-args: ${{ inputs.nemsio-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs"
         git-ref: ${{ inputs.nemsio-version }}
-        repo-cache: ${{ inputs.repo-cache && inputs.nemsio-version != 'develop' }}
+        repo-cache: false # ${{ inputs.repo-cache && inputs.nemsio-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: -bacio-${{ inputs.bacio-version }}-${{ inputs.bacio-cmake-args }}-w3emc-${{ inputs.w3emc-version }}-${{ inputs.w3emc-cmake-args }}${{ inputs.key-suffix }}
+
+    - name: "Cache install dir"
+      uses: actions/cache@v4
+      if: ${{ inputs.repo-cache == 'true' }}
+      with:
+        key: ${{ inputs.key-prefix }}-dependencies-${{ inputs.key-suffix }}
+        path: nceplibs
