@@ -66,7 +66,7 @@ runs:
 
     - name: "Build 'jasper'"
       uses: NOAA-EMC/ci-build-cmake-code@oneinstalldir
-      if: ${{ inputs.jasper-version }} && ${{ steps.deps-cache.outputs.cache-hit != 'true' }}
+      if: ${{ inputs.jasper-version && steps.deps-cache.outputs.cache-hit != 'true' }}
       with:
         package-name: jasper
         package-org: jasper-software
