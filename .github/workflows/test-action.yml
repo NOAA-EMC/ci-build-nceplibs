@@ -53,8 +53,8 @@ jobs:
       
       - name: Verify cache was NOT used on first run
         run: |
-          echo "Cache hit count on first run: ${{ steps.first-run.outputs.count }}"
-          if [[ "${{ steps.first-run.outputs.count }}" == "0" ]]; then
+          echo "Cache hit count on first run: ${{ steps.first-run.outputs.cache-hit-count }}"
+          if [[ "${{ steps.first-run.outputs.cache-hit-count }}" == "0" ]]; then
             echo "✓ Confirmed: No cache was used on first run (expected)"
           else
             echo "✗ Error: Cache was unexpectedly used on first run"
@@ -98,9 +98,9 @@ jobs:
       
       - name: Verify cache WAS used on second run
         run: |
-          echo "Cache hit count on second run: ${{ steps.second-run.outputs.count }}"
-          if [[ "${{ steps.second-run.outputs.count }}" == "9" ]]; then
-            echo "✓ Confirmed: Cache was used for ${{ steps.second-run.outputs.count }} package(s) on second run"
+          echo "Cache hit count on second run: ${{ steps.second-run.outputs.cache-hit-count }}"
+          if [[ "${{ steps.second-run.outputs.cache-hit-count }}" == "9" ]]; then
+            echo "✓ Confirmed: Cache was used for ${{ steps.second-run.outputs.cache-hit-count }} package(s) on second run"
           else
             echo "✗ Warning: Cache was not used on second run"
             echo "Note: 'develop' versions bypass repository caching by design"
