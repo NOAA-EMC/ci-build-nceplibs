@@ -41,9 +41,9 @@ jobs:
         run: |
           set -x
           echo "Checking for installed libraries..."
-          test -f ${{ github.workspace }}/nceplibs/jasper/lib/libjasper.a
-          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-bacio/lib/libbacio_4.a
-          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-bufr/lib/libbufr_d.a
+          test -f ${{ github.workspace }}/nceplibs/jasper/lib/libjasper.so
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-bacio/lib/libbacio.a
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-bufr/lib/libbufr_4.a
           test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-sp/lib/libsp_d.a
           test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-w3emc/lib/libw3emc_d.a
           test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-ip/lib/libip_d.a
