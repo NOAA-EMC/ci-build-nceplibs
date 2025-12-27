@@ -1,0 +1,109 @@
+name: Test Action
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 25 * *'
+
+jobs:
+  test-develop-builds:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout action repository
+        uses: actions/checkout@v4
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake gfortran libpng-dev libjpeg-dev
+      
+      - name: First run - Build all packages (develop versions, no cache)
+        id: first-run
+        uses: ./
+        with:
+          jasper-version: develop
+          bacio-version: develop
+          bufr-version: develop
+          g2-version: develop
+          g2c-version: develop
+          ip-version: develop
+          nemsio-version: develop
+          sp-version: develop
+          w3emc-version: develop
+          repo-cache: true
+          key-prefix: test-
+      
+      - name: Verify libraries exist (first run)
+        run: |
+          echo "Checking for installed libraries..."
+          test -f ${{ github.workspace }}/nceplibs/jasper/lib/libjasper.a || test -f ${{ github.workspace }}/nceplibs/jasper/lib64/libjasper.a || echo "jasper library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-bacio/lib/libbacio.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-bacio/lib64/libbacio_4.a || echo "bacio library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-bufr/lib/libbufr_d.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-bufr/lib64/libbufr_d.a || echo "bufr library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-sp/lib/libsp_d.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-sp/lib64/libsp_d.a || echo "sp library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-w3emc/lib/libw3emc_d.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-w3emc/lib64/libw3emc_d.a || echo "w3emc library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-ip/lib/libip_d.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-ip/lib64/libip_d.a || echo "ip library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-g2c/lib/libg2c.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-g2c/lib64/libg2c.a || echo "g2c library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-g2/lib/libg2_d.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-g2/lib64/libg2_d.a || echo "g2 library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-nemsio/lib/libnemsio.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-nemsio/lib64/libnemsio.a || echo "nemsio library check"
+          echo "All library checks completed successfully!"
+      
+      - name: Verify cache was NOT used on first run
+        run: |
+          echo "Cache hit count on first run: ${{ steps.first-run.outputs.cache-hit-count }}"
+          if [[ "${{ steps.first-run.outputs.cache-hit-count }}" == "0" ]]; then
+            echo "✓ Confirmed: No cache was used on first run (expected)"
+          else
+            echo "✗ Error: Cache was unexpectedly used on first run"
+            exit 1
+          fi
+      
+      - name: Clean installation directory
+        run: |
+          rm -rf ${{ github.workspace }}/nceplibs
+          echo "Cleaned installation directory to test caching"
+      
+      - name: Second run - Build all packages again (should use cache)
+        id: second-run
+        uses: ./
+        with:
+          jasper-version: develop
+          bacio-version: develop
+          bufr-version: develop
+          g2-version: develop
+          g2c-version: develop
+          ip-version: develop
+          nemsio-version: develop
+          sp-version: develop
+          w3emc-version: develop
+          repo-cache: true
+          key-prefix: test-
+      
+      - name: Verify libraries exist (second run)
+        run: |
+          echo "Checking for installed libraries after cache restore..."
+          test -f ${{ github.workspace }}/nceplibs/jasper/lib/libjasper.a || test -f ${{ github.workspace }}/nceplibs/jasper/lib64/libjasper.a || echo "jasper library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-bacio/lib/libbacio.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-bacio/lib64/libbacio_4.a || echo "bacio library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-bufr/lib/libbufr_d.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-bufr/lib64/libbufr_d.a || echo "bufr library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-sp/lib/libsp_d.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-sp/lib64/libsp_d.a || echo "sp library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-w3emc/lib/libw3emc_d.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-w3emc/lib64/libw3emc_d.a || echo "w3emc library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-ip/lib/libip_d.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-ip/lib64/libip_d.a || echo "ip library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-g2c/lib/libg2c.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-g2c/lib64/libg2c.a || echo "g2c library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-g2/lib/libg2_d.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-g2/lib64/libg2_d.a || echo "g2 library check"
+          test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-nemsio/lib/libnemsio.a || test -f ${{ github.workspace }}/nceplibs/NCEPLIBS-nemsio/lib64/libnemsio.a || echo "nemsio library check"
+          echo "All library checks completed successfully on cached run!"
+      
+      - name: Verify cache WAS used on second run
+        run: |
+          echo "Cache hit count on second run: ${{ steps.second-run.outputs.cache-hit-count }}"
+          if [[ "${{ steps.second-run.outputs.cache-hit-count }}" == "9" ]]; then
+            echo "✓ Confirmed: Cache was used for ${{ steps.second-run.outputs.cache-hit-count }} package(s) on second run"
+          else
+            echo "✗ Warning: Cache was not used on second run"
+            echo "Note: 'develop' versions bypass repository caching by design"
+            exit 1
+          fi

@@ -51,12 +51,14 @@ inputs:
     description: "String to append to cache key (for, e.g., dependency tracking)"
     default: ""
 
+
 runs:
   using: "composite"
 
   steps:
 
     - name: "Build 'jasper'"
+      id: build-jasper
       uses: NOAA-EMC/ci-build-cmake-code@develop
       if: ${{ inputs.jasper-version }}
       with:
@@ -69,6 +71,7 @@ runs:
         key-suffix: ${{ inputs.key-suffix }}
 
     - name: "Build 'bacio'"
+      id: build-bacio
       uses: NOAA-EMC/ci-build-cmake-code@develop
       if: ${{ inputs.bacio-version }}
       with:
@@ -81,6 +84,7 @@ runs:
         key-suffix: ${{ inputs.key-suffix }}
 
     - name: "Build 'bufr'"
+      id: build-bufr
       uses: NOAA-EMC/ci-build-cmake-code@develop
       if: ${{ inputs.bufr-version }}
       with:
@@ -93,6 +97,7 @@ runs:
         key-suffix: ${{ inputs.key-suffix }}
 
     - name: "Build 'w3emc'"
+      id: build-w3emc
       uses: NOAA-EMC/ci-build-cmake-code@develop
       if: ${{ inputs.w3emc-version }}
       with:
@@ -105,6 +110,7 @@ runs:
         key-suffix: -bacio-${{ inputs.bacio-version }}-${{ inputs.bacio-cmake-args }}${{ inputs.key-suffix }}
 
     - name: "Build 'sp'"
+      id: build-sp
       uses: NOAA-EMC/ci-build-cmake-code@develop
       if: ${{ inputs.sp-version }}
       with:
@@ -117,6 +123,7 @@ runs:
         key-suffix: ${{ inputs.key-suffix }}
 
     - name: "Build 'ip'"
+      id: build-ip
       uses: NOAA-EMC/ci-build-cmake-code@develop
       if: ${{ inputs.ip-version }}
       with:
@@ -129,6 +136,7 @@ runs:
         key-suffix: ${{ inputs.key-suffix }}
 
     - name: "Build 'g2c'"
+      id: build-g2c
       uses: NOAA-EMC/ci-build-cmake-code@develop
       if: ${{ inputs.g2c-version }}
       with:
@@ -141,6 +149,7 @@ runs:
         key-suffix: -jasper-${{ inputs.jasper-version }}-${{ inputs.jasper-cmake-args }}${{ inputs.key-suffix }}
 
     - name: "Build 'g2'"
+      id: build-g2
       uses: NOAA-EMC/ci-build-cmake-code@develop
       if: ${{ inputs.g2-version }}
       with:
@@ -153,6 +162,7 @@ runs:
         key-suffix: -bacio-${{ inputs.bacio-version }}-${{ inputs.bacio-cmake-args }}-w3emc-${{ inputs.w3emc-version }}-${{ inputs.w3emc-cmake-args }}-jasper-${{ inputs.jasper-version }}-${{ inputs.jasper-cmake-args }}${{ inputs.key-suffix }}
 
     - name: "Build 'nemsio'"
+      id: build-nemsio
       uses: NOAA-EMC/ci-build-cmake-code@develop
       if: ${{ inputs.nemsio-version }}
       with:
@@ -163,3 +173,20 @@ runs:
         repo-cache: ${{ inputs.repo-cache && inputs.nemsio-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
         key-suffix: -bacio-${{ inputs.bacio-version }}-${{ inputs.bacio-cmake-args }}-w3emc-${{ inputs.w3emc-version }}-${{ inputs.w3emc-cmake-args }}${{ inputs.key-suffix }}
+
+    - name: "Aggregate cache statistics"
+      id: aggregate-cache-stats
+      shell: bash
+      run: |
+        count=0
+        if [[ "${{ steps.build-jasper.outputs.usedcache }}" == "true" ]]; then ((count++)); fi
+        if [[ "${{ steps.build-bacio.outputs.usedcache }}" == "true" ]]; then ((count++)); fi
+        if [[ "${{ steps.build-bufr.outputs.usedcache }}" == "true" ]]; then ((count++)); fi
+        if [[ "${{ steps.build-w3emc.outputs.usedcache }}" == "true" ]]; then ((count++)); fi
+        if [[ "${{ steps.build-sp.outputs.usedcache }}" == "true" ]]; then ((count++)); fi
+        if [[ "${{ steps.build-ip.outputs.usedcache }}" == "true" ]]; then ((count++)); fi
+        if [[ "${{ steps.build-g2c.outputs.usedcache }}" == "true" ]]; then ((count++)); fi
+        if [[ "${{ steps.build-g2.outputs.usedcache }}" == "true" ]]; then ((count++)); fi
+        if [[ "${{ steps.build-nemsio.outputs.usedcache }}" == "true" ]]; then ((count++)); fi
+        echo "count=$count" >> $GITHUB_OUTPUT
+        echo "Total packages using cache: $count"
