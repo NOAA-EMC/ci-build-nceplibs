@@ -19,8 +19,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y cmake gfortran libpng-dev libjpeg-dev
+          sudo apt-get install -y cmake gfortran libpng-dev libjpeg-dev libopenblas-serial-dev
       
       - name: First run - Build all packages (develop versions, no cache)
         id: first-run
