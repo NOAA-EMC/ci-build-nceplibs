@@ -155,11 +155,11 @@ runs:
       with:
         package-name: NCEPLIBS-g2
         package-org: NOAA-EMC
-        cmake-args: ${{ inputs.g2-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs/NCEPLIBS-g2c;${{ github.workspace }}/nceplibs/NCEPLIBS-bacio;${{ github.workspace }}/nceplibs/NCEPLIBS-w3emc;${{ github.workspace }}/nceplibs/jasper"
+        cmake-args: ${{ inputs.g2-cmake-args }} -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nceplibs/NCEPLIBS-g2c;${{ github.workspace }}/nceplibs/NCEPLIBS-ip;${{ github.workspace }}/nceplibs/NCEPLIBS-bacio;${{ github.workspace }}/nceplibs/NCEPLIBS-w3emc;${{ github.workspace }}/nceplibs/jasper"
         git-ref: ${{ inputs.g2-version }}
         repo-cache: ${{ inputs.repo-cache && inputs.g2-version != 'develop' }}
         key-prefix: ${{ inputs.key-prefix }}
-        key-suffix: -g2c-${{ inputs.g2c-version }}-bacio-${{ inputs.bacio-version }}-${{ inputs.bacio-cmake-args }}-w3emc-${{ inputs.w3emc-version }}-${{ inputs.w3emc-cmake-args }}-jasper-${{ inputs.jasper-version }}-${{ inputs.jasper-cmake-args }}${{ inputs.key-suffix }}
+        key-suffix: -ip-${{ inputs.ip-version }}-g2c-${{ inputs.g2c-version }}-bacio-${{ inputs.bacio-version }}-${{ inputs.bacio-cmake-args }}-w3emc-${{ inputs.w3emc-version }}-${{ inputs.w3emc-cmake-args }}-jasper-${{ inputs.jasper-version }}-${{ inputs.jasper-cmake-args }}${{ inputs.key-suffix }}
 
     - name: "Build 'nemsio'"
       id: build-nemsio
