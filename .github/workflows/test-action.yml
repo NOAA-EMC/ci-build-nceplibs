@@ -26,7 +26,7 @@ jobs:
         id: first-run
         uses: ./
         with:
-          jasper-version: develop
+          jasper-version: master
           bacio-version: develop
           bufr-version: develop
           g2-version: develop
@@ -71,7 +71,7 @@ jobs:
         id: second-run
         uses: ./
         with:
-          jasper-version: develop
+          jasper-version: master
           bacio-version: develop
           bufr-version: develop
           g2-version: develop
