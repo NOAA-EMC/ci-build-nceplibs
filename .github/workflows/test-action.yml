@@ -19,7 +19,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          sudo apt-get install -y cmake gfortran libpng-dev libjpeg-dev libopenblas-serial-dev
+          sudo apt-get install -y cmake gfortran libpng-dev libjpeg-dev libopenblas-serial-dev openmpi-bin libopenmpi-dev
       
       - name: First run - Build all packages (develop versions, no cache)
         id: first-run
