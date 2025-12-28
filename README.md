@@ -1,5 +1,7 @@
 # GitHub CI Action: build-nceplibs
 
+![Test action](https://github.com/NOAA-EMC/ci-build-nceplibs/actions/workflows/test-action.yml/badge.svg)
+
 This repository provides a GitHub Action for checking out and building several
 NCEP libraries, as well as caching the resulting code 
 (currently this is only supported for repository caches through the 
